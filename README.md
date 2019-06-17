@@ -1,68 +1,204 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### Initialize Project
+```sh
+# 1. Initialize
+sudo npm install -g create-react-app
+create-react-app project_name
 
-In the project directory, you can run:
+# 2. open the project in VS-Code
+cd project_name && code .
 
-### `npm start`
+# 3. Start the project locally
+yarn start
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Functional Component
+```javascript
+const App = (props) => {
+    return ()
+}
+export default App;
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Class Component
+```javascript
+class App extends React.Component {
+    // constructor 1: good place to initialize state
+    constructor(props){
+        super(props);
+        this.state = { a: a_value }
+    }
 
-### `npm test`
+    // constructor 2: good place to initialize state 
+    state = {};
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    // after mounting the page: good place to do data-loading after mounting
+    componentDidMount() {}
 
-### `npm run build`
+    // after updating the page: good place to do date loading after page updating
+    componentDidUpdate() {}
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    // after unmounting the page: good place to clean up unnecessary resources
+    componentWillUnmount() {}
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+    // render the component
+    render(){
+        // ...
+        return ()
+    }
+}
+export default App;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Import && Export
+```javascript
+import AnotherComponent from 'AnotherComponent';
+import AnotherComponent, {ClassName1} from 'AnotherComponent';
+import { ClassName1, FunctionName1} from 'AnotherComponent';
+```
 
-### `npm run eject`
+```javascript
+export default ClassName;
+export default FunctionName;
+export {ClassNam1, ClassName2, FunctionName1, FunctionName2};
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Children Components
+```javascript
+<ApprovalCard>
+    <CommentDetail
+        author="Sam"
+        timeAgo="Today at 4:45PM"
+        content="Nice blog post"
+        avatar = {faker.image.avatar()}
+    />
+</ApprovalCard>
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+// compoment ApprovalCard
+<div className="content"> {this.props.children} </div>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Fetch User Geo Location
+[Geo Location](https://www.udemy.com/react-redux/learn/lecture/12531190#overview)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### React Lifecycle
+- Why we use lifecycle methods?
 
-## Learn More
+<img style="width: 100%; margin: auto" src="https://cdn-images-1.medium.com/max/2400/1*sn-ftowp0_VVRbeUAFECMA.png "></img>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Update State
+```javascript
+this.setState({});
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Add Styles
+- General
+  - Load `CSS` file in `index.js` **OR** Load `CSS` CDN in `index.html`
+  - Apply proper `className` to element
+- Inline
+  - use `style` props: `style: {{...}}` **OR** component specific style method
 
-### Code Splitting
+### Loading Spinner
+```javascript
+render() {
+    if (this.state.xxx === null) return <Spinner/>
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Default Props
+- Simple way
+```javascript
+{this.props.sth || "hello"}
+```
+- Better Way
+```javascript
+const Spinner = () => {} // one component as class or function
+Spinner.defaultProps = {};
+```
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Define Method in Class
+```javascript
+class SearchBar extends React.Component {
+    // normal definition
+    onFormSubmit(event) {
+    }
+}
+```
 
-### Making a Progressive Web App
+### Solve `this` Context
+- Bind
+```javascript
+class Car {
+    constructor() {
+        // guide this to this instance(because this is in the constructor)
+        this.drive = this.drive.bind(this);
+    }
+}
+```
+- Arrow Function
+```javascript
+// prerequisite: babel
+onFormSubmit = (event) => {}
+```
+- Inline Arrow Function
+```javascript
+// normal definition
+onFormSubmit(event) {}
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+// this will cause unpredictable error ❎
+<form onSubmit={this.onFormSubmit}/>
 
-### Advanced Configuration
+// this is proper way ✔️
+<form onSubmit={() => this.onFormSubmit()}/>
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Render List
+```javascript
+const ImageList = props => {
+    const imageList =  props.images.map( image => {
+        return <img key = {image.id} src = {image.urls.regular} />
+    })
 
-### Deployment
+    return <React.Fragment>{imageList}</React.Fragment>
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### React Ref
+```javascript
+class ImageCard extends React.Component {
+    constructor(props) {
+        super(props);
+        // 🐂 Core code: initialzie in constructor
+        this.imageRef = React.createRef();
+    }
 
-### `npm run build` fails to minify
+    render() {
+        return 
+        <React.Fragment>
+            <div>
+                // 🐂 Core code: assign in code.
+                <img ref={this.imageRef}>
+            </div>
+        </React.Fragment>
+    }
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Some Methods
+```javascript
+event.target.value
+event.preventDefault();
+addEventListener('load', func);
+```
+
+## Resources
+[React Express](http://www.react.express/)
+
+## Issues
+1. D3 element id: you could directly manipulate the dom through d3 in react.
+2. transition is not a function: `import {selet, selectAll} from 'd3-selection'`
+3. CORS of axios: add domain in package.json as proxy.

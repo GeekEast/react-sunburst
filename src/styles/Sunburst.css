@@ -1,0 +1,54 @@
+/* main */
+.sunburst-main {
+	width: auto;
+	height: auto;
+}
+
+/* breadcrumb */
+.sunburst-main-sequence {
+	width: auto;
+	height: 70px;
+}
+/* chart */
+.sunburst-main-chart {
+	position: relative;
+}
+
+/* width=height=2radius */
+.sunburst-main-chart-svg {
+	position: absolute;
+	width: 400px;
+	height: 400px;
+}
+
+/* legend */
+.sunburst-main-chart-sidebar {
+	position: absolute;
+	top: 250px;
+	left: 450px;
+}
+.sunburst-main-chart-sidebar-legend {
+	padding: 10px 0 0 3px;
+}
+
+/* text on the sunburst */
+.sunburst-main-chart-explanation {
+	position: absolute;
+	left: 450px;
+	width: 140px;
+	text-align: center;
+	font-weight: bold;
+	color: gray;
+	z-index: -2;
+}
+
+.sunburst-main-chart path {
+	stroke: #fff;
+}
+
+/* breadcrumb and legend text */
+.sunburst-main-sequence text,
+.sunburst-main-chart-sidebar-legend text {
+	font-weight: 600;
+	fill: #fff;
+}
